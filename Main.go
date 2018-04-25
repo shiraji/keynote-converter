@@ -8,11 +8,8 @@ import (
 )
 
 func main() {
-
+	flag.Parse()
 	dir := flag.Arg(0)
-
-	fmt.Println(dir)
-
 	out, _ := exec.Command("find",
 		dir,
 		"-not", "-name", "*.pdf*",
