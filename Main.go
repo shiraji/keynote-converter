@@ -2,14 +2,18 @@ package main
 
 import (
 	"os/exec"
-	"fmt"
 	"strings"
 	"flag"
+	"fmt"
+	"path/filepath"
 )
 
 func main() {
 	flag.Parse()
 	dir := flag.Arg(0)
+
+	fmt.Println(dir)
+
 	out, _ := exec.Command("find",
 		dir,
 		"-not", "-name", "*.pdf*",
@@ -28,7 +32,10 @@ func main() {
 	results := strings.Split(string(out), "\n")
 
 	for _, value := range results {
-		fmt.Println("-----")
-		fmt.Println(value)
+		base := filepath.Base(value)
+		targetPath := filepath.Dir(filepath.Dir(value))
+		targetDir := filepath.Base(targetPath)
+		fmt.Println(targetDir)
+		fmt.Println(base)
 	}
 }
