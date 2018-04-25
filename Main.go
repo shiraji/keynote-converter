@@ -6,16 +6,32 @@ import (
 	"flag"
 	"fmt"
 	"path/filepath"
+	"io/ioutil"
+	"encoding/json"
+	"strconv"
 )
+
+type SlideList struct {
+	Slides []string `json:"slideList"`
+}
 
 func main() {
 	flag.Parse()
-	dir := flag.Arg(0)
+	htmlDir := flag.Arg(0)
+	separator := string(filepath.Separator)
+	jsonPath := htmlDir + separator + "assets" + separator + "header.json"
+	bytes, _ := ioutil.ReadFile(jsonPath)
+	var slideList SlideList
+	json.Unmarshal(bytes, &slideList)
 
-	fmt.Println(dir)
+	for key, slide := range slideList.Slides {
+		fmt.Println(strconv.Itoa(key) + ": " + slide)
+	}
+
+	fmt.Println(htmlDir)
 
 	out, _ := exec.Command("find",
-		dir,
+		htmlDir,
 		"-not", "-name", "*.pdf*",
 		"-not", "-name", "*.json*",
 		"-not", "-name", "*.jpeg",
