@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"io/ioutil"
 	"encoding/json"
-	"fmt"
 )
 
 type HtmlSlideList struct {
@@ -25,12 +24,12 @@ func main() {
 	separator := string(filepath.Separator)
 	jsonPath := htmlDir + separator + "assets" + separator + "header.json"
 	bytes, _ := ioutil.ReadFile(jsonPath)
-	var slideList HtmlSlideList
-	json.Unmarshal(bytes, &slideList)
+	var htmlSlideList HtmlSlideList
+	json.Unmarshal(bytes, &htmlSlideList)
 
-	slides := make([]HtmlSlide, len(slideList.Slides))
-	for index, value := range slideList.Slides {
-		slides[index] = HtmlSlide{
+	htmlSlides := make([]HtmlSlide, len(htmlSlideList.Slides))
+	for index, value := range htmlSlideList.Slides {
+		htmlSlides[index] = HtmlSlide{
 			value, false,
 		}
 	}
@@ -53,17 +52,13 @@ func main() {
 	results := strings.Split(string(out), "\n")
 
 	for _, value := range results {
-		//base := filepath.Base(value)
 		targetPath := filepath.Dir(filepath.Dir(value))
 		targetDir := filepath.Base(targetPath)
-		for index, slide := range slides {
+		for index, slide := range htmlSlides {
 			if slide.Path == targetDir {
-				slides[index].IsMovie = true
+				htmlSlides[index].IsMovie = true
 			}
 		}
 	}
 
-	for _, v := range slides {
-		fmt.Println(v)
-	}
 }
