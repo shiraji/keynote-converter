@@ -10,11 +10,11 @@ import (
 	"fmt"
 )
 
-type SlideList struct {
+type HtmlSlideList struct {
 	Slides []string `json:"slideList"`
 }
 
-type Slide struct {
+type HtmlSlide struct {
 	Path string
 	IsMovie bool
 }
@@ -25,12 +25,12 @@ func main() {
 	separator := string(filepath.Separator)
 	jsonPath := htmlDir + separator + "assets" + separator + "header.json"
 	bytes, _ := ioutil.ReadFile(jsonPath)
-	var slideList SlideList
+	var slideList HtmlSlideList
 	json.Unmarshal(bytes, &slideList)
 
-	slides := make([]Slide, len(slideList.Slides))
+	slides := make([]HtmlSlide, len(slideList.Slides))
 	for index, value := range slideList.Slides {
-		slides[index] = Slide {
+		slides[index] = HtmlSlide{
 			value, false,
 		}
 	}
