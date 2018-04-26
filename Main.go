@@ -4,15 +4,19 @@ import (
 	"os/exec"
 	"strings"
 	"flag"
-	"fmt"
 	"path/filepath"
 	"io/ioutil"
 	"encoding/json"
-	"strconv"
+	"fmt"
 )
 
 type SlideList struct {
 	Slides []string `json:"slideList"`
+}
+
+type Slide struct {
+	Path string
+	IsMovie bool
 }
 
 func main() {
@@ -24,11 +28,12 @@ func main() {
 	var slideList SlideList
 	json.Unmarshal(bytes, &slideList)
 
-	for key, slide := range slideList.Slides {
-		fmt.Println(strconv.Itoa(key) + ": " + slide)
+	slides := make([]Slide, len(slideList.Slides))
+	for index, value := range slideList.Slides {
+		slides[index] = Slide {
+			value, false,
+		}
 	}
-
-	fmt.Println(htmlDir)
 
 	out, _ := exec.Command("find",
 		htmlDir,
@@ -48,10 +53,17 @@ func main() {
 	results := strings.Split(string(out), "\n")
 
 	for _, value := range results {
-		base := filepath.Base(value)
+		//base := filepath.Base(value)
 		targetPath := filepath.Dir(filepath.Dir(value))
 		targetDir := filepath.Base(targetPath)
-		fmt.Println(targetDir)
-		fmt.Println(base)
+		for index, slide := range slides {
+			if slide.Path == targetDir {
+				slides[index].IsMovie = true
+			}
+		}
+	}
+
+	for _, v := range slides {
+		fmt.Println(v)
 	}
 }
