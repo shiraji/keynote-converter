@@ -25,6 +25,8 @@ func padNumberWithZero(value int) string {
 func main() {
 	flag.Parse()
 	htmlDir := flag.Arg(0)
+	jpegDir := flag.Arg(1)
+	jpegFilePrefix := filepath.Base(jpegDir)
 	separator := string(filepath.Separator)
 	jsonPath := htmlDir + separator + "assets" + separator + "header.json"
 	bytes, _ := ioutil.ReadFile(jsonPath)
