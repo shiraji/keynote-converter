@@ -60,9 +60,10 @@ func main() {
 	for _, value := range results {
 		targetPath := filepath.Dir(filepath.Dir(value))
 		targetDir := filepath.Base(targetPath)
-		for index, slide := range htmlSlides {
-			if slide.Path == targetDir {
-				htmlSlides[index].IsMovie = true
+		for index, slide := range htmlSlideList.Slides {
+			if slide == targetDir {
+				slidePaths[index].IsMovie = true
+				slidePaths[index].Path = value
 			}
 		}
 	}
