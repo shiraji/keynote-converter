@@ -13,7 +13,7 @@ type HtmlSlideList struct {
 	Slides []string `json:"slideList"`
 }
 
-type HtmlSlide struct {
+type SlidePath struct {
 	Path string
 	IsMovie bool
 }
@@ -33,10 +33,10 @@ func main() {
 	var htmlSlideList HtmlSlideList
 	json.Unmarshal(bytes, &htmlSlideList)
 
-	htmlSlides := make([]HtmlSlide, len(htmlSlideList.Slides))
-	for index, value := range htmlSlideList.Slides {
-		htmlSlides[index] = HtmlSlide{
-			value, false,
+	slidePaths := make([]SlidePath, len(htmlSlideList.Slides))
+	for index, _ := range htmlSlideList.Slides {
+		slidePaths[index] = SlidePath{
+			jpegDir + separator + jpegFilePrefix + "." + padNumberWithZero(index) + ".jpeg", false,
 		}
 	}
 
