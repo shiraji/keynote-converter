@@ -18,6 +18,10 @@ type HtmlSlide struct {
 	IsMovie bool
 }
 
+func padNumberWithZero(value int) string {
+	return fmt.Sprintf("%03d", value)
+}
+
 func main() {
 	flag.Parse()
 	htmlDir := flag.Arg(0)
