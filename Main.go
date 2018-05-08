@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"io/ioutil"
 	"encoding/json"
+	"fmt"
 )
 
 type HtmlSlideList struct {
@@ -68,4 +69,9 @@ func main() {
 		}
 	}
 
+	for _, v := range slidePaths {
+		fmt.Println(v)
+	}
+
+	fmt.Println("end")
 }
